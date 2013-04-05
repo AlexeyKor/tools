@@ -28,7 +28,7 @@ mainWindow::mainWindow(QWidget *parent) :
 	ui->outputView->setAlignment(Qt::AlignLeft | Qt::AlignTop);
 	ui->outputView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	ui->outputView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	ui->stages->setCurrentIndex(4);
+	ui->stages->setCurrentIndex(-1);
 
 	connect(ui->exitButton, SIGNAL(clicked()), this, SLOT(close()));
 	connect(ui->clearButton, SIGNAL(clicked()), this, SLOT(clear()));
@@ -62,8 +62,13 @@ void mainWindow::recognizeImage()
 	QString fileName = QFileDialog::QFileDialog::getOpenFileName(this,
 																 tr("Recognize image"), ".",
 																 tr("Png files (*.png)"));
+	QImage(fileName).save("contour.jpg");
+	contourRecognizer mContourRec;
+	mContourRec.getContour();
 	inputImage = new QGraphicsPixmapItem(QPixmap::fromImage(QImage(fileName)));
-	mBitmap = new Bitmap(QImage(fileName));
+	inputContour = new QGraphicsPixmapItem(QPixmap::fromImage(QImage("contour.jpg")));
+	mBitmap = new Bitmap(QImage(fileName)); //after making vectorization change to mBitmap = new Bitmap(QImage("contour.jpg"));
+	remove("contour.jpg");
 	recognizeDiagram();
 
 }
@@ -92,7 +97,9 @@ void mainWindow::recognizeDiagram()
 	emit print(mDiagram, mBitmap, mFormSegmentator, 4);
 
 	scene->addItem(inputImage);
+	scene->addItem(inputContour);
 	scene->addWidget(printedDiagram);
+	ui->stages->setCurrentIndex(0);
 	clearScene();
 	showInput();
 }
@@ -105,12 +112,15 @@ void mainWindow::showStage(int index)
 		showInput();
 		break;
 	case 1:
-		showBitmap();
+		showContour();
 		break;
 	case 2:
-		showComponents();
+		showBitmap();
 		break;
 	case 3:
+		showComponents();
+		break;
+	case 4:
 		showUniStage();
 		break;
 	}
@@ -121,6 +131,12 @@ void mainWindow::showInput()
 {
 	clearScene();
 	inputImage->setVisible(true);
+}
+
+void mainWindow::showContour()
+{
+	clearScene();
+	inputContour->setVisible(true);
 }
 
 void mainWindow::showUniStage()
@@ -148,6 +164,8 @@ void mainWindow::clearScene()
 {
 	if(inputImage->isVisible())
 		inputImage->setVisible(false);
+	if(inputContour->isVisible())
+		inputContour->setVisible(false);
 	if(printedDiagram->isVisible())
 		printedDiagram->setVisible(false);
 }

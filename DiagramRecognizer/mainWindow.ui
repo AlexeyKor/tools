@@ -55,9 +55,17 @@
         </item>
         <item>
          <widget class="QComboBox" name="stages">
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
           <item>
            <property name="text">
             <string>Input</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Contour</string>
            </property>
           </item>
           <item>
@@ -151,7 +159,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>27</height>
     </rect>
    </property>
   </widget>

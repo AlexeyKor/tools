@@ -19,7 +19,9 @@ SOURCES += main.cpp\
     recognizers/mixedGesturesManager.cpp \
     recognizers/nearestPosGridGesturesManager.cpp \
     recognizers/rectangleGesturesManager.cpp \
-    diagramMainWIndow.cpp
+    diagramMainWIndow.cpp \
+    dominantColor.cpp \
+    contourRecognizer.cpp
 
 HEADERS  += \
     geometricForms.h \
@@ -35,7 +37,9 @@ HEADERS  += \
     recognizers/mixedGesturesManager.h \
     recognizers/nearestPosGridGesturesmanager.h \
     recognizers/rectangleGesturesManager.h \
-    diagramMainWindow.h
+    diagramMainWindow.h \
+    dominantColor.h \
+    contourRecognizer.h
 
 FORMS    += \
     mainWindow.ui
@@ -43,3 +47,5 @@ FORMS    += \
 OTHER_FILES += \
     readme.txt \
     Conception.jpg
+
+LIBS += -lopencv_core -lopencv_highgui -lopencv_imgproc

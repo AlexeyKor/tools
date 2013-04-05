@@ -7,6 +7,9 @@
 #include "output.h"
 #include <QGraphicsScene>
 #include <QGraphicsItem>
+#include <opencv/cv.h>
+#include <opencv/highgui.h>
+#include "contourRecognizer.h"
 
 namespace Ui {
 class mainWindow;
@@ -30,11 +33,12 @@ signals:
 
 private:
 	void showInput();
+	void showContour();
 	void showUniStage();
 	void showBitmap();
 	void showComponents();
 	void clearScene();
-	QGraphicsPixmapItem *inputImage;
+	QGraphicsPixmapItem *inputContour, *inputImage;
 	Output *printedDiagram;
 	Ui::mainWindow *ui;
 	void recognizeDiagram();
